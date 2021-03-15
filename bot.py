@@ -78,6 +78,22 @@ async def drink(ctx):
     bot.curDrinks = bot.curDrinks + 1
 
 @bot.command()
+async def double(ctx):
+    if bot.seas == None:
+        await ctx.send("You're not watching anything now!!!! :angry:")
+        return
+    await ctx.send("TODO Add funny comment (double)")
+    bot.curDrinks = bot.curDrinks + 2
+
+@bot.command()
+async def triple(ctx):
+    if bot.seas == None:
+        await ctx.send("You're not watching anything now!!!! :angry:")
+        return
+    await ctx.send("TODO Add funny comment (triple)")
+    bot.curDrinks = bot.curDrinks + 3
+
+@bot.command()
 async def finish(ctx):
     if bot.seas == None:
         await ctx.send("You're not watching anything now!!!! :angry:")
@@ -94,6 +110,20 @@ async def finish(ctx):
 async def reset(ctx):
     bot.drinks = 0
     await ctx.send("Resetting drinks to 0...")
+
+@bot.command()
+async def ruleset(ctx):
+    s = "```Zasady MLPiekło\
+        1. Gdy Spike pojawia się na ekranie – pijesz (1 szot);\
+        2. Jak Pinkie Pie rozwala prawa fizyki lub logiki – pijesz (1 szot);\
+        3. Jak Fluttershy powie zdanie dłuższe niż 5 słów – pijesz (2 szoty);\
+        4. Jak Twilight Sparkle szaleje lub panikuje bez powodu – pijesz (1 szot);\
+        5. Gdy Rainbow Dash zrobi coś głupiego i za to przeprosi – pijesz (1 szot);\
+        6. Jak Rarity upada na szezlong (kozetkę) lub mdleje – pijesz (1 szot);\
+        7. Jak Apple Jack wspomina o rodzinie  - pijesz (1 szot);\
+        8. Jeśli jest piosenka (intro się nie liczy) – pijesz (3 szoty);\
+    ```"
+    await ctx.send(s)
 
 @bot.command()
 async def stop(ctx):
