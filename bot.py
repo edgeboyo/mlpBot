@@ -91,6 +91,11 @@ async def finish(ctx):
     putDrinks(bot.drinks)
 
 @bot.command()
+async def reset(ctx):
+    bot.drinks = 0
+    await ctx.send("Resetting drinks to 0...")
+
+@bot.command()
 async def stop(ctx):
     putDrinks(bot.drinks)
     await ctx.send("Okay :<. Bye bye!!! :cry:")
