@@ -41,7 +41,7 @@ async def rollEp(ctx, arg):
         ep = random.randint(1, 13)
     else:
         ep = random.randint(1, 26)
-    await ctx.send("You are going to watch season {} episode {}! Have fun!".format(pick, ep))
+    await ctx.send("You are going to watch season **{}** episode **{}**! Have fun!".format(pick, ep))
     bot.seas = pick
     bot.ep = ep
     bot.curDrinks = 0
@@ -54,7 +54,7 @@ async def roll(ctx):
         ep = random.randint(1, 13)
     else:
         ep = random.randint(1, 26)
-    await ctx.send("You are going to watch season {} episode {}! Have fun!".format(pick, ep))
+    await ctx.send("You are going to watch season **{}** episode **{}**! Have fun!".format(pick, ep))
     bot.seas = pick
     bot.ep = ep
     bot.curDrinks = 0
@@ -63,7 +63,7 @@ async def roll(ctx):
 async def watch(ctx, seas, ep):
     seas = int(seas)
     ep = int(ep)
-    await ctx.send("You are going to watch season {} episode {}! Have fun!".format(seas, ep))
+    await ctx.send("You are going to watch season **{}** episode **{}**! Have fun!".format(seas, ep))
     bot.seas = seas
     bot.ep = ep
     bot.curDrinks = 0
@@ -98,8 +98,8 @@ async def finish(ctx):
     if bot.seas == None:
         await ctx.send("You're not watching anything now!!!! :angry:")
         return
-    await ctx.send("You finished watching season {} episode {}!!!".format(bot.seas, bot.ep))
-    await ctx.send("During the episode you've drank {} drinks! Good luck waking up tomorrow!".format(bot.curDrinks))
+    await ctx.send("You finished watching season **{}** episode **{}**!!!".format(bot.seas, bot.ep))
+    await ctx.send("During the episode you've drank **{}** drinks! Good luck waking up tomorrow!".format(bot.curDrinks))
     bot.drinks = bot.drinks + bot.curDrinks
     bot.curDrinks = None
     bot.seas = None
@@ -113,14 +113,14 @@ async def reset(ctx):
 
 @bot.command()
 async def ruleset(ctx):
-    s = "```Zasady MLPiekło\
-        1. Gdy Spike pojawia się na ekranie – pijesz (1 szot);\
-        2. Jak Pinkie Pie rozwala prawa fizyki lub logiki – pijesz (1 szot);\
-        3. Jak Fluttershy powie zdanie dłuższe niż 5 słów – pijesz (2 szoty);\
-        4. Jak Twilight Sparkle szaleje lub panikuje bez powodu – pijesz (1 szot);\
-        5. Gdy Rainbow Dash zrobi coś głupiego i za to przeprosi – pijesz (1 szot);\
-        6. Jak Rarity upada na szezlong (kozetkę) lub mdleje – pijesz (1 szot);\
-        7. Jak Apple Jack wspomina o rodzinie  - pijesz (1 szot);\
+    s = "```Zasady MLPiekło\n\
+        1. Gdy Spike pojawia się na ekranie – pijesz (1 szot);\n\
+        2. Jak Pinkie Pie rozwala prawa fizyki lub logiki – pijesz (1 szot);\n\
+        3. Jak Fluttershy powie zdanie dłuższe niż 5 słów – pijesz (2 szoty);\n\
+        4. Jak Twilight Sparkle szaleje lub panikuje bez powodu – pijesz (1 szot);\n\
+        5. Gdy Rainbow Dash zrobi coś głupiego i za to przeprosi – pijesz (1 szot);\n\
+        6. Jak Rarity upada na szezlong (kozetkę) lub mdleje – pijesz (1 szot);\n\
+        7. Jak Apple Jack wspomina o rodzinie  - pijesz (1 szot);\n\
         8. Jeśli jest piosenka (intro się nie liczy) – pijesz (3 szoty);\
     ```"
     await ctx.send(s)
