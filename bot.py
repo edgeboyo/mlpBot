@@ -138,16 +138,11 @@ async def ruleset(ctx):
     await ctx.send(s)
 
 @bot.command()
-async def watchpage(ctx):
+async def watchpage(ctx): 
     s = bot.watcher.craftMessage()
-    remmes = await ctx.send("This can take a moment...")
-    await ctx.send("Current episode tally is:")
-    lines = s.split("\n")
-    for i in lines:
-        if len(i) > 0:
-            await ctx.send(i)
-    await ctx.send("You idiots drank {} shots of alcohol :tumbler_glass:. Happy Liver Cancer!!! :100::100::100:".format(bot.drinks))
-    await remmes.delete()
+    p1 = "```Current episode tally is:\n" + s[0] + "\n"
+    p2 = s[1] + "You idiots drank {} shots of alcohol 🥃 Happy Liver Cancer!!! 💯💯💯".format(bot.drinks) + "```"
+    await ctx.send(p1 + p2)
 
 @bot.command()
 async def unwatch(ctx, seas, ep):

@@ -16,11 +16,13 @@ class WatchTimeHolder():
             mes += "Season {}: ".format(i+1)
             for ep in flags:
                 if ep:
-                    mes += ":white_check_mark:"
+                    mes += "✅"
                 else:
-                    mes += ":no_entry_sign:"
+                    mes += "🚫"
             mes += "\n"
-        return mes
+        part1 = "\n".join(mes.split("\n")[:4])
+        part2 = "\n".join(mes.split("\n")[4:])
+        return (part1, part2)
 
     def watch(self, seas, ep):
         self.series[seas-1][ep-1] = True
@@ -71,8 +73,6 @@ class WatchTimeHolder():
                 for i in range(9):
                     line = f.readline()
                     nums = [bool(int(q)) for q in line.split(";")]
-                    print(line.split(";"))
-                    print(nums)
                     if (i == 2 and len(nums) == 13) or (i != 2 and len(nums) == 26):
                         l[i] = nums
                     else:
