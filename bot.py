@@ -30,6 +30,8 @@ class MLPBot(commands.Bot):
 
 bot = MLPBot()
 
+bot.remove_command('help')
+
 @bot.event
 async def on_ready():
     bot.drinks = getDrinks()
@@ -160,6 +162,10 @@ async def unwatch(ctx, seas, ep):
         ctx.send("I don't think that's an episode... :cry:")
         return
     ctx.send("You can expierience S{}E{} again".format(seas, ep))
+
+@bot.command()
+async def help(ctx):
+    await ctx.send("I can't help you, but if you want to operate me better go to: https://edgeboyo.github.io/mlpBot/ :wrench: ")
 
 @bot.command()
 async def stop(ctx):
