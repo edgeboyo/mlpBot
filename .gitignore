@@ -1,2 +1,3 @@
 *.token
-drinks.txt
+*.txt
+__pycache__

@@ -1,5 +1,7 @@
+import inspect
 import discord
 from discord.ext import commands
+from series import WatchTimeHolder
 import random
 
 def getDrinks():
@@ -23,6 +25,8 @@ class MLPBot(commands.Bot):
         self.curDrinks = None
         self.seas = None
         self.ep = None
+        self.watcher = WatchTimeHolder()
+        self.watcher.getWatcher()
 
 bot = MLPBot()
 
@@ -48,12 +52,12 @@ async def rollEp(ctx, arg):
 
 @bot.command()
 async def roll(ctx):
-    pick = random.randint(1, 9)
-    ep = None
-    if pick == 3:
-        ep = random.randint(1, 13)
-    else:
-        ep = random.randint(1, 26)
+    sel = bot.watcher.roll()
+    if isinstance(sel, str):
+        await ctx.send(sel)
+        return
+    pick = sel[0]
+    ep = sel[1]
     await ctx.send("You are going to watch season **{}** episode **{}**! Have fun!".format(pick, ep))
     bot.seas = pick
     bot.ep = ep
@@ -100,6 +104,7 @@ async def finish(ctx):
         return
     await ctx.send("You finished watching season **{}** episode **{}**!!!".format(bot.seas, bot.ep))
     await ctx.send("During the episode you've drank **{}** drinks! Good luck waking up tomorrow!".format(bot.curDrinks))
+    bot.watcher.watch(bot.seas, bot.ep)
     bot.drinks = bot.drinks + bot.curDrinks
     bot.curDrinks = None
     bot.seas = None
@@ -107,9 +112,14 @@ async def finish(ctx):
     putDrinks(bot.drinks)
 
 @bot.command()
-async def reset(ctx):
+async def resetDrinks(ctx):
     bot.drinks = 0
     await ctx.send("Resetting drinks to 0...")
+
+@bot.command()
+async def resetWatches(ctx):
+    bot.watcher = WatchTimeHolder()
+    await ctx.send("Resetting watches to 0...")
 
 @bot.command()
 async def ruleset(ctx):
@@ -126,8 +136,35 @@ async def ruleset(ctx):
     await ctx.send(s)
 
 @bot.command()
+async def watchpage(ctx):
+    s = bot.watcher.craftMessage()
+    remmes = await ctx.send("This can take a moment...")
+    await ctx.send("Current episode tally is:")
+    lines = s.split("\n")
+    for i in lines:
+        if len(i) > 0:
+            await ctx.send(i)
+    await ctx.send("You idiots drank {} shots of alcohol :tumbler_glass:. Happy Liver Cancer!!! :100::100::100:".format(bot.drinks))
+    await remmes.delete()
+
+@bot.command()
+async def unwatch(ctx, seas, ep):
+    try:
+        seas = int(seas)
+        ep = int(ep)
+        if not bot.watcher.series[seas][ep]:
+            ctx.send("You haven't watched this yet... :smiling_face_with_tear:")
+            return
+        bot.watcher.series[seas][ep] = False
+    except:
+        ctx.send("I don't think that's an episode... :cry:")
+        return
+    ctx.send("You can expierience S{}E{} again".format(seas, ep))
+
+@bot.command()
 async def stop(ctx):
     putDrinks(bot.drinks)
+    bot.watcher.putWatcher()
     await ctx.send("Okay :<. Bye bye!!! :cry:")
     await bot.logout()
 
