@@ -26,7 +26,6 @@ class MLPBot(commands.Bot):
         self.seas = None
         self.ep = None
         self.watcher = WatchTimeHolder()
-        self.watcher.getWatcher()
 
 bot = MLPBot()
 
@@ -35,6 +34,7 @@ bot.remove_command('help')
 @bot.event
 async def on_ready():
     bot.drinks = getDrinks()
+    bot.watcher.getWatcher()
     print('Logged on as {0}!'.format(bot.user))
 
 @bot.command()
@@ -74,6 +74,12 @@ async def watch(ctx, seas, ep):
     bot.ep = ep
     bot.curDrinks = 0
     
+@bot.command()
+async def blackout(ctx):
+    await ctx.send("OwO You couldn't cut it!!! Stopping ✨watch mode✨ :weary:")
+    bot.seas = None
+    bot.ep = None
+    bot.curDrinks = None
 
 @bot.command()
 async def drink(ctx):
@@ -88,7 +94,7 @@ async def double(ctx):
     if bot.seas == None:
         await ctx.send("You're not watching anything now!!!! :angry:")
         return
-    await ctx.send("TODO Add funny comment (double)")
+    await ctx.send("Too good to handle!! :champagne_glass: ")
     bot.curDrinks = bot.curDrinks + 2
 
 @bot.command()
@@ -96,7 +102,7 @@ async def triple(ctx):
     if bot.seas == None:
         await ctx.send("You're not watching anything now!!!! :angry:")
         return
-    await ctx.send("TODO Add funny comment (triple)")
+    await ctx.send("Hat-trick!!! :beer: :beers: ")
     bot.curDrinks = bot.curDrinks + 3
 
 @bot.command()
@@ -142,6 +148,7 @@ async def watchpage(ctx):
     s = bot.watcher.craftMessage()
     p1 = "```Current episode tally is:\n" + s[0] + "\n"
     p2 = s[1] + "You idiots drank {} shots of alcohol 🥃 Happy Liver Cancer!!! 💯💯💯".format(bot.drinks) + "```"
+    await ctx.message.delete()
     await ctx.send(p1 + p2)
 
 @bot.command()
@@ -150,13 +157,13 @@ async def unwatch(ctx, seas, ep):
         seas = int(seas)
         ep = int(ep)
         if not bot.watcher.series[seas][ep]:
-            ctx.send("You haven't watched this yet... :smiling_face_with_tear:")
+            await ctx.send("You haven't watched this yet... :smiling_face_with_tear:")
             return
         bot.watcher.series[seas][ep] = False
     except:
-        ctx.send("I don't think that's an episode... :cry:")
+        await ctx.send("I don't think that's an episode... :cry:")
         return
-    ctx.send("You can expierience S{}E{} again".format(seas, ep))
+    await ctx.send("You can experience S{}E{} again".format(seas, ep))
 
 @bot.command()
 async def help(ctx):
